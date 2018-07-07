@@ -15,12 +15,6 @@ EXPORT_FUNCTIONS pkg_setup
 # currently selected PostgreSQL slot is within a range, adding a system
 # user to the postgres system group, and generating dependencies.
 
-
-case ${EAPI:-0} in
-	5|6) ;;
-	*) die "Unsupported EAPI=${EAPI} (unknown) for ${ECLASS}" ;;
-esac
-
 # @ECLASS-VARIABLE: _POSTGRES_ALL_VERSIONS
 # @INTERNAL
 # @DESCRIPTION:

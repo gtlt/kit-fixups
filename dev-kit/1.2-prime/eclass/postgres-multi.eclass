@@ -15,13 +15,6 @@ EXPORT_FUNCTIONS pkg_setup src_prepare src_compile src_install src_test
 # build and install for one or more PostgreSQL slots as specified by
 # POSTGRES_TARGETS use flags.
 
-
-case ${EAPI:-0} in
-	5|6) ;;
-	*) die "Unsupported EAPI=${EAPI} (unknown) for ${ECLASS}" ;;
-esac
-
-
 # @ECLASS-VARIABLE: POSTGRES_COMPAT
 # @REQUIRED
 # @DESCRIPTION:
