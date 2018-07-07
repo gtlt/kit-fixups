@@ -9,11 +9,3 @@ x11-drivers/ati-drivers abi_x86_32
 
 # For binutils-libs, required by GNOME and other desktop things
 sys-libs/binutils-libs abi_x86_32
-
-# required by sys-devel/gcc-7.3.1::core-kit
-# required by sys-devel/gcc (argument)
-sys-libs/zlib abi_x86_32
-# required by sys-devel/gcc-7.3.1::core-kit
-# required by sys-devel/gcc (argument)
-virtual/libiconv abi_x86_32
-
