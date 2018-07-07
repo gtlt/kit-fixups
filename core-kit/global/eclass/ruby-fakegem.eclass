@@ -104,15 +104,6 @@ RUBY_FAKEGEM_BINDIR="${RUBY_FAKEGEM_BINDIR-bin}"
 # get installed. Some gems provide extra files such as version information,
 # Rails generators, or data that needs to be installed as well.
 
-case "${EAPI:-0}" in
-		0|1|2|3|4|5|6)
-				;;
-		*)
-				die "Unsupported EAPI=${EAPI} (unknown) for ${ECLASS}"
-				;;
-esac
-
-
 RUBY_FAKEGEM_SUFFIX="${RUBY_FAKEGEM_SUFFIX:-}"
 
 
