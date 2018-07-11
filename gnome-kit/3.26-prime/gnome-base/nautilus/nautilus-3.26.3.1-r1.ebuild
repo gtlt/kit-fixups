@@ -1,8 +1,6 @@
-# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI=6
+EAPI="6"
 GNOME2_LA_PUNT="yes" # Needed with USE 'sendto'
 
 inherit gnome2 readme.gentoo-r1 versionator meson
@@ -14,7 +12,7 @@ LICENSE="GPL-2+ LGPL-2+ FDL-1.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="exif gnome +introspection packagekit +previewer selinux sendto vanilla-menu vanilla-menu-compress vanilla-rename vanilla-search vanilla-thumbnailer xmp"
+IUSE="exif gnome +introspection packagekit +previewer selinux sendto tracker vanilla-menu vanilla-menu-compress vanilla-rename vanilla-search vanilla-thumbnailer xmp"
 
 # FIXME: tests fails under Xvfb, but pass when building manually
 # "FAIL: check failed in nautilus-file.c, line 8307"
@@ -40,6 +38,7 @@ COMMON_DEPEND="
 	exif? ( >=media-libs/libexif-0.6.20 )
 	introspection? ( >=dev-libs/gobject-introspection-0.6.4:= )
 	selinux? ( >=sys-libs/libselinux-2 )
+	tracker? ( >=app-misc/tracker-1:= )
 	xmp? ( >=media-libs/exempi-2.1.0:2 )
 "
 DEPEND="${COMMON_DEPEND}
@@ -48,7 +47,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-util/gtk-doc-am-1.10
 	>=sys-devel/gettext-0.19.7
 	virtual/pkgconfig
-	x11-proto/xproto
+	x11-base/xorg-proto
 	app-misc/tracker
 "
 RDEPEND="${COMMON_DEPEND}
@@ -62,6 +61,7 @@ RDEPEND="${COMMON_DEPEND}
 
 PDEPEND="
 	gnome? ( x11-themes/adwaita-icon-theme )
+	tracker? ( >=gnome-extra/nautilus-tracker-tags-0.12 )
 	previewer? ( >=gnome-extra/sushi-0.1.9 )
 	sendto? ( >=gnome-extra/nautilus-sendto-3.0.1 )
 	>=gnome-base/gvfs-1.14[gtk]
@@ -69,6 +69,11 @@ PDEPEND="
 	!vanilla-thumbnailer? ( media-video/ffmpegthumbnailer )
 "
 # Need gvfs[gtk] for recent:/// support
+
+PATCHES=(
+	# Keep tracker optional
+	"${FILESDIR}"/${PV}-tracker-support-optional.patch
+)
 
 src_prepare() {
 	if use previewer; then
@@ -82,7 +87,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-3.26.0-dont-explicitly-require-libm.patch
 
 	if ! use vanilla-menu; then
-		eapply "${FILESDIR}"/${PN}-3.22.0-reorder-context-menu.patch
+		eapply "${FILESDIR}"/${PN}-3.26.3.1-reorder-context-menu.patch
 		if ! use vanilla-menu-compress; then
 			# From GNOME:
 			# 	https://gitlab.gnome.org/GNOME/nautilus/commit/cd78b1c9863a25a5fae0f2f7f98ca6d58681cbd6
@@ -90,7 +95,7 @@ src_prepare() {
 			# 	https://gitlab.gnome.org/GNOME/nautilus/commit/1bdc404245da0491b8c5f41eee947aef59f5d73e
 			eapply -R "${FILESDIR}"/${PN}-3.25.90-mime-actions-null-check-app-info.patch
 			eapply -R "${FILESDIR}"/${PN}-3.25.90-general-remove-spaces-from-desktop-mimetype-list.patch
-			eapply -R "${FILESDIR}"/${PN}-3.25.1-general-add-mime-type-support-for-archives.patch
+			eapply -R "${FILESDIR}"/${PN}-3.26.3.1-general-add-mime-type-support-for-archives.patch
 
 			eapply "${FILESDIR}"/${PN}-3.26.0-disable-automatic-decompression-of-archives.patch
 			eapply "${FILESDIR}"/${PN}-3.22.0-remove-native-compress-rebased.patch
@@ -102,20 +107,20 @@ src_prepare() {
 		# 	https://gitlab.gnome.org/GNOME/nautilus/commit/1bdc404245da0491b8c5f41eee947aef59f5d73e
 		eapply -R "${FILESDIR}"/${PN}-3.25.90-mime-actions-null-check-app-info.patch
 		eapply -R "${FILESDIR}"/${PN}-3.25.90-general-remove-spaces-from-desktop-mimetype-list.patch
-		eapply -R "${FILESDIR}"/${PN}-3.25.1-general-add-mime-type-support-for-archives.patch
+		eapply -R "${FILESDIR}"/${PN}-3.26.3.1-general-add-mime-type-support-for-archives.patch
 
 		eapply "${FILESDIR}"/${PN}-3.26.0-disable-automatic-decompression-of-archives.patch
 		eapply "${FILESDIR}"/${PN}-3.22.0-remove-native-compress.patch
 	fi
 
 	if ! use vanilla-rename; then
-		eapply "${FILESDIR}"/${PN}-3.26.0-support-slow-double-click-to-rename.patch
+		eapply "${FILESDIR}"/${PN}-3.26.3.1-support-slow-double-click-to-rename.patch
 	fi
 
 	if ! use vanilla-search; then
 		# From Dr. Amr Osman:
 		# 	https://bugs.launchpad.net/ubuntu/+source/nautilus/+bug/1164016/comments/31
-		eapply "${FILESDIR}"/${PN}-3.26.0-support-alternative-search.patch
+		eapply "${FILESDIR}"/${PN}-3.26.3.1-support-alternative-search.patch
 	fi
 
 	eapply_user
@@ -127,7 +132,6 @@ src_configure() {
 		-Denable-xmp=$(usex xmp true false)
 		-Denable-packagekit=$(usex packagekit true false)
 		-Denable-nst-extension=$(usex sendto true false)
-		-Denable-selinux=$(usex selinux true false)
 		-Denable-selinux=$(usex selinux true false)
 		-Denable-profiling=false
 		-Denable-desktop=true
