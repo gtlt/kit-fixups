@@ -151,6 +151,7 @@ class KitFoundation:
 			{'name': 'kde-kit', 'branch': '5.10-prime', 'source': 'funtoo_mk3_prime', 'default': False, 'stability': KitStabilityRating.DEPRECATED},
 			{'name': 'kde-kit', 'branch': '5.11-prime', 'source': 'funtoo_prime_kde', 'stability': KitStabilityRating.DEPRECATED},
 			{'name': 'kde-kit', 'branch': '5.12-prime', 'source': 'funtoo_prime_kde_late', 'default': True, 'stability': KitStabilityRating.PRIME},
+			{'name': 'kde-kit', 'branch': '5.13-release', 'source': 'funtoo_current', 'default': False, 'stability': KitStabilityRating.DEV},
 			{'name': 'media-kit', 'branch': '1.0-prime', 'source': 'funtoo_prime_media', 'default': False, 'stability': KitStabilityRating.DEPRECATED},
 			{'name': 'media-kit', 'branch': '1.1-prime', 'source': 'funtoo_mk3_prime', 'default': True, 'stability': KitStabilityRating.PRIME},  # MK3
 			{'name': 'media-kit', 'branch': '1.2-prime', 'source': 'funtoo_mk4_prime', 'stability': KitStabilityRating.PRIME},
