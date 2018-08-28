@@ -1,12 +1,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
+PYTHON_COMPAT=( python2_7 python3_{4..7} )
 
 inherit git-r3 linux-mod
 AUTOTOOLS_AUTORECONF="1"
-EGIT_REPO_URI="git://github.com/tonyhutter/${PN}.git"
-EGIT_COMMIT="85d2f8a8cfee18c38b67c8fa7076bf18adb2cf9b"
+EGIT_REPO_URI="https://github.com/tonyhutter/${PN}.git"
+EGIT_COMMIT="4a139643aadc98f7c88a4c7595bba11db5561c51"
 KEYWORDS="*"
 
 inherit autotools-utils bash-completion-r1 flag-o-matic linux-info python-r1 systemd toolchain-funcs udev
@@ -204,4 +204,3 @@ pkg_postrm() {
 		remove_moduledb
 	fi
 }
-
